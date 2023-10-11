@@ -1,0 +1,42 @@
+<header>
+    <nav>
+        <div class="logo"></div>
+        
+        <div class="menu">
+            <ul>
+                <% if user_signed_in? %>
+                <li>投稿一覧</li>
+                <li>マイページ</li>
+                <li>
+                    <%= link_to destroy_user_session_path, method: :delete do %>
+                        ログアウト
+                    <% end %>
+                </li>
+                
+                <% elsif admin_signed_in? %>
+                <li>投稿一覧</li>
+                <li>ユーザー一覧</li>
+                <li>
+                    <%= link_to destroy_admin_session_path, method: :delete do%>
+                        ログアウト
+                    <% end %>
+                </li>
+                
+                <% else %>
+                <li>
+                    <%= link_to new_user_registration_path do %>
+                        新規登録
+                    <% end %>
+                </li>
+                <li>
+                    <%= link_to new_user_session_path do %>
+                        ログイン
+                    <% end %>
+                </li>
+                
+                <% end %>
+                
+            </ul>
+        </div>
+    </nav>
+</header>
