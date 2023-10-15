@@ -5,7 +5,11 @@
         <div class="menu">
             <ul>
                 <% if user_signed_in? %>
-                <li>投稿一覧</li>
+                <li>
+                    <%= link_to posts_path do %>
+                        投稿一覧
+                    <% end %>
+                </li>
                 <li>マイページ</li>
                 <li>
                     <%= link_to destroy_user_session_path, method: :delete do %>
@@ -34,6 +38,17 @@
                     <% end %>
                 </li>
                 
+                <% end %>
+                
+                <!--部分テンプレートになるところ-->
+                <!--新規投稿画面-->
+                <%= form_with model: @new_post do |f| %>
+                    <h5>画像</h5>
+                    <%= f.file_field :images, accept: "image/*" %>
+                    <h5>投稿文</h5>
+                    <%= f.text_area :text %>
+                    
+                    <%= f.submit '投稿' %>
                 <% end %>
                 
             </ul>

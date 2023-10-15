@@ -2,25 +2,30 @@ class Public::PostsController < ApplicationController
     
     def index
         @new_post = Post.new
-        
+        @posts = Post.all
         
     end
     
     def show
         @new_post = Post.new
+        @post = Post.find(params[:id])
     end
     
     def create
         @new_post = Post.new(post_params)
         @new_post.user_id = current_user.id
-        @new_post.save
-        redirect_to posts_path
-   end
+        if @new_post.save
+           flash[:notice] = "投稿しました"
+           redirect_to posts_path
+        else
+           render :index
+        end   
+    end
    
    private
    
    def post_params
-       params.require(:post).permit(:images, :text)
+       params.require(:post).permit(:images, :text, :user_id)
    end
        
 end

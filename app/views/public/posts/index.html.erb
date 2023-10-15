@@ -1,6 +1,6 @@
 <h1>post index</h1>
 
-    <!--部分テンプレートになるところ-->
+<!--部分テンプレートになるところ-->
     <!--新規投稿画面-->
     <%= form_with model: @new_post do |f| %>
         <h5>画像</h5>
@@ -9,4 +9,16 @@
         <%= f.text_area :text %>
         
         <%= f.submit '投稿' %>
+    <% end %>
+    
+    <!--投稿一覧-->
+    <% @posts.each do |post| %>
+        <div>
+            <%= link_to post_path(post.id) do %>
+                <p>投稿ユーザー画像:<%= image_tag 'no_image.jpg' %>
+                <p>ユーザーネーム:<%= post.user.name %></p>
+                <%#= image_tag post.get_images %>
+                <%= post.text %>
+            <% end %>
+        </div>
     <% end %>    

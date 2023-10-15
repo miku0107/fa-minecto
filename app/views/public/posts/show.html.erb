@@ -1,0 +1,13 @@
+<h1>post show</h1>
+    
+<!---->
+    <!--投稿詳細画面-->
+    <div>
+        <%#= image_tag post.get_images %>
+        <%= image_tag 'no_image.jpg' %>
+        <%= @post.user.name %>
+        <!--ユーザー名が表示されないTT-->
+        <%= @post.text %>
+        <%= @post.created_at.strftime('%Y/%m/%d') %>
+    </div>
+    
