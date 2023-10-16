@@ -1,0 +1,17 @@
+<h1>post show</h1>
+    
+<!---->
+    <!--投稿詳細画面-->
+    <div>
+        <%= link_to user_path(@post.user.id) do %>
+            <%= image_tag 'no_image.jpg' %>
+            <%= @post.user.name %>
+        <% end %>
+        <%#= image_tag post.get_images %>
+        <%= @post.text %>
+        <%= @post.created_at.strftime('%Y/%m/%d') %>
+        <% if @post.user == current_user %>
+            <%= link_to post_path(@post), method: :delete, data: {confirm: "投稿を削除しますか？"} do %>削除<% end %>
+        <% end %>    
+    </div>
+    

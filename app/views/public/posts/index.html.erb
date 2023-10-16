@@ -1,12 +1,18 @@
 <h1>post index</h1>
-
-    <!--部分テンプレートになるところ-->
-    <!--新規投稿画面-->
-    <%= form_with model: @new_post do |f| %>
-        <h5>画像</h5>
-        <%= f.file_field :images, accept: "image/*" %>
-        <h5>投稿文</h5>
-        <%= f.text_area :text %>
-        
-        <%= f.submit '投稿' %>
+    
+    <!--投稿一覧-->
+    <% @posts.each do |post| %>
+        <div>
+            
+                <div>
+                    <%= link_to user_path(post.user.id) do %>
+                        <p>投稿ユーザー画像:<%= image_tag 'no_image.jpg' %></p>
+                        <p>ユーザーネーム:<%= post.user.name %></p>
+                    <% end %>
+                </div>
+            <%= link_to post_path(post.id) do %>    
+                <%= post.text %>
+                <%#= image_tag post.get_images %>
+            <% end %>
+        </div>
     <% end %>    
