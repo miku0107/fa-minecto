@@ -1,0 +1,18 @@
+<h1>post index</h1>
+    
+    <!--投稿一覧-->
+    <% @posts.each do |post| %>
+        <div>
+            
+                <div>
+                    <%= link_to user_path(post.user.id) do %>
+                        <p>投稿ユーザー画像:<%= image_tag 'no_image.jpg' %></p>
+                        <p>ユーザーネーム:<%= post.user.name %></p>
+                    <% end %>
+                </div>
+            <%= link_to post_path(post.id) do %>    
+                <%= post.text %>
+                <%#= image_tag post.get_images %>
+            <% end %>
+        </div>
+    <% end %>    
