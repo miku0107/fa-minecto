@@ -10,7 +10,11 @@
                         投稿一覧
                     <% end %>
                 </li>
-                <li>マイページ</li>
+                <li>
+                    <%= link_to user_path(current_user.id) do %>
+                        マイページ
+                    <% end %>
+                </li>
                 <li>
                     <%= link_to destroy_user_session_path, method: :delete do %>
                         ログアウト

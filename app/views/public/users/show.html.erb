@@ -1,4 +1,42 @@
 <h1>user show</h1>
+    
+    <!--ユーザープロフィール-->
     <div>
+        <%#= ヘッダー画像 %>
+        <%#= image_tag user.get_profile_image(100,100) %>
+        <%= link_to edit_user_path do %>
+            プロフィールを編集する
+        <% end %><br>
+        <%= @user.name %><br>
+        <%= @user.bio %><br>
+        <% if @user.location.present? %>
+            場所（アイコンに変更）<%= @user.location %><br>
+        <% else %>
         
+        <% end %>
+        
+        <% if @user.birth_date.present? %>
+            誕生日:<%= @user.birth_date.strftime('%Y年%m月%d日') %>
+        <% else %>
+        
+        <% end %>
+        <%#= @user.following.count %>
+        <%#= @user.follower.count %>
+        
+    </div>
+    
+    <!--ユーザー投稿一覧-->
+    <div>
+        <% @posts.each do |post| %>
+        <div>
+            <%= link_to user_path(post.user.id) do %>
+                <p>投稿ユーザー画像:<%= image_tag 'no_image.jpg' %></p>
+                <p>ユーザーネーム:<%= post.user.name %></p>
+            <% end %>
+            <%= link_to post_path(post.id) do %>
+                <%#= image_tag post.get_images %>
+                <%= post.text %>
+            <% end %>
+        </div>
+    <% end %>
     </div>

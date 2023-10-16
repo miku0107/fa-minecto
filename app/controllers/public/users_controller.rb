@@ -4,9 +4,29 @@ class Public::UsersController < ApplicationController
     end
     
     def show
+        @new_post = Post.new
+        @user = User.find(params[:id])
+        @posts = @user.posts
     end
     
     def edit
-    end    
+        @user = User.find(params[:id])
+    end
     
+    def update
+        @user = User.find(params[:id])
+        
+        if @user.update(user_params)
+           redirect_to user_path(@user)
+        else
+           render "edit"
+        end
+    end
+    
+    
+    private
+    
+    def user_params
+        params.require(:user).permit(:name, :bio, :location, :birth_date)
+    end    
 end

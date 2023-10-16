@@ -21,7 +21,13 @@ class Public::PostsController < ApplicationController
            render :index
         end   
     end
-   
+    
+    def destroy
+        post = Post.find(params[:id])
+        post.destroy
+        redirect_to posts_path
+    end
+    
    private
    
    def post_params
