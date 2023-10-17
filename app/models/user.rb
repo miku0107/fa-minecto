@@ -13,6 +13,13 @@ class User < ApplicationRecord
   
   has_one_attached :profile_image
   
+  def self.guest
+    find_or_create_by!(email: 'guest@test.com') do |user|
+      user.password = SecureRandom.urlsafe_base64
+      user.password_confirmation = user.password
+      user.name = "ゲストユーザー"
+    end  
+  end  
   
   include ActiveRecord::AttributeAssignment
   
