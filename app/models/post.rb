@@ -12,7 +12,21 @@ class Post < ApplicationRecord
             images.attach(io: File.open(file_path), filename: 'default-image.jpg', content_type: 'image/jpeg')
         end
            images
-    end    
+    end
+    
+    def favorited_by?(user)
+        favorites.exists?(user_id: user.id)
+    end  
+    
+    def self.looks(search, word)
+        if search == "perfect_match"
+          @post = Post.where("text LIKE?", "#{word}")
+        elsif search == "partial_match"
+          @post = Post.where("text LIKE?", "%#{word}%")
+        else
+          @post = Post.all
+        end
+    end  
     
     
     validates :text, presence: true

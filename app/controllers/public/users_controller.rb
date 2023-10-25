@@ -13,6 +13,14 @@ class Public::UsersController < ApplicationController
         @user = User.find(params[:id])
     end
     
+    def withdraw
+        @user = User.find(current_user.id)
+        @user.update(is_active: false)
+        reset_session
+        flash[:notice] = "退会処理を実行しました"
+        redirect_to root_path
+    end
+    
     def update
         @user = User.find(params[:id])
         
@@ -22,7 +30,6 @@ class Public::UsersController < ApplicationController
            render "edit"
         end
     end
-    
     
     private
     

@@ -1,53 +1,46 @@
-<h1>user edit</h1>
-    
-    <%= form_with model: @user do |f| %>
+<div class="container mt-4">
+  <h1>ユーザー編集</h1>
+
+  <%= form_with model: @user, local: true, html: { class: "mt-4" } do |f| %>
     <h3>プロフィールを編集</h3>
-    
-    <div>
-        <%= f.submit "保存" %>
-    </div>
-    
-    <div>
-        <%= f.file_field :profile_image %>
-    </div>
-    
-    <div>
-        <%#= f.file_field :header_image %>
-    </div>
-    
+
     <div class="form-group">
-        <%= f.text_field :name, placeholder: "ユーザーネーム" %>
+      <%= f.label :profile_image, "プロフィール画像" %><br>
+      <%= f.file_field :profile_image %>
     </div>
-    
-    <div>
-        <%= f.text_area :bio, placeholder: "自己紹介" %>
+
+    <!-- ヘッダー画像 -->
+    <!-- <div class="form-group">
+      <%= f.label :header_image, "ヘッダー画像" %>
+      <%= f.file_field :header_image, class: "form-control" %>
+    </div> -->
+
+    <div class="form-group">
+      <%= f.label :name, "ユーザーネーム" %>
+      <%= f.text_field :name, class: "form-control", placeholder: "ユーザーネーム" %>
     </div>
-    
-    <div>
-        <%= f.text_field :location, placeholder: "場所" %>
+
+    <div class="form-group">
+      <%= f.label :bio, "自己紹介" %>
+      <%= f.text_area :bio, class: "form-control", placeholder: "自己紹介" %>
     </div>
-    
-    <div>
-        <%= f.label :birth_date, "生年月日" %><br>
-        <%= raw sprintf(
-            f.date_select(
-              :birth_date,
-              use_month_numbers: true,
-              start_year: 1900,
-              end_year: (Time.now.year - 5),
-              default: Date.new(2000, 1, 1),
-              date_separator: '%s'),
-            '年 ', '月 ') + '日' %>
-        
-        <%#= raw sprintf(
-                f.date_select (
-                    :birth_date, 
-                    use_month_number: true,
-                    start_year: 1900,
-                    end_year: 2100,
-                    default: Date.new(2000, 1, 1),
-                    date_separator: '%s'),
-                    '年 ', '月 ') + '日' %>
+
+    <div class="form-group">
+      <%= f.label :location, "場所" %>
+      <%= f.text_field :location, class: "form-control", placeholder: "場所" %>
     </div>
-    
-    <% end %>
+
+    <div class="form-group">
+      <%= f.label :birth_date, "生年月日" %><br>
+      <%= f.date_select :birth_date, { use_month_numbers: true, start_year: 1900, end_year: (Time.now.year - 5), default: Date.new(2000, 1, 1) } %>
+    </div>
+
+    <div class="form-group">
+      <%= f.submit "保存", class: "btn btn-primary" %>
+    </div>
+
+    <div class="form-group">
+      <%= link_to "退会する", users_check_path, class: "btn btn-danger" %>
+    </div>
+  <% end %>
+</div>

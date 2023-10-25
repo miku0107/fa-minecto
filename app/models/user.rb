@@ -13,6 +13,10 @@ class User < ApplicationRecord
   
   has_one_attached :profile_image
   
+  def active_for_authentication?
+    super && (is_active == true)
+  end  
+  
   def self.guest
     find_or_create_by!(email: 'guest@test.com') do |user|
       user.password = SecureRandom.urlsafe_base64
@@ -22,5 +26,15 @@ class User < ApplicationRecord
   end  
   
   include ActiveRecord::AttributeAssignment
+  
+  def self.looks(search, word)
+    if search == "perfect_match"
+      @user = User.where("name LIKE?", "#{word}")
+    elsif search == "partial_match"
+      @user = User.where("name LIKE?", "%#{word}%")
+    else
+      @user = User.all
+    end
+  end  
   
 end  
