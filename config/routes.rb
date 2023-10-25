@@ -20,12 +20,18 @@ Rails.application.routes.draw do
   scope module: :public do
     root to: 'homes#top'
     
+    
+    get '/users/check' => 'users#check'
+    patch '/users/withdraw' => 'users#withdraw'
     resources :users, only: [:index, :show, :edit, :update]
+    
     
     resources :posts, only: [:new, :index, :show, :create, :destroy] do
       resources :comments, only: [:create, :destroy]
-      resources :favorites, only: [:create, :destroy]
+      resource :favorites, only: [:create, :destroy]
     end
+    
+    get "search" => "searches#search"
     
   end
   

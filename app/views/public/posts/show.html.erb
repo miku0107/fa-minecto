@@ -1,17 +1,78 @@
-<h1>post show</h1>
-    
-<!---->
-    <!--投稿詳細画面-->
-    <div>
-        <%= link_to user_path(@post.user.id) do %>
-            <%= image_tag 'no_image.jpg' %>
-            <%= @post.user.name %>
-        <% end %>
-        <%#= image_tag post.get_images %>
-        <%= @post.text %>
-        <%= @post.created_at.strftime('%Y/%m/%d') %>
-        <% if @post.user == current_user %>
-            <%= link_to post_path(@post), method: :delete, data: {confirm: "投稿を削除しますか？"} do %>削除<% end %>
-        <% end %>    
+<div class="container mt-4">
+
+  <!-- 投稿ユーザー情報 -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <%= link_to user_path(@post.user.id) do %>
+        <%= image_tag 'no_image.jpg', class: "rounded-circle" %>
+        <h5 class="card-title"><%= @post.user.name %></h5>
+      <% end %>
     </div>
-    
+  </div>
+
+  <!-- 投稿内容 -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <!-- image_tag post.get_images -->
+      <p class="card-text"><%= @post.text %></p>
+      <p class="card-text"><%= @post.created_at.strftime('%Y/%m/%d') %></p>
+      <% if @post.user == current_user %>
+        <%= link_to post_path(@post), method: :delete, data: { confirm: "投稿を削除しますか？" }, class: "btn btn-danger" do %>
+          削除
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- いいね機能 -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="btn-group" role="group">
+        <% if @post.favorited_by?(current_user) %>
+          <%= link_to post_favorites_path(@post), method: :delete, class: "btn btn-danger" do %>
+            ♥ <%= @post.favorites.count %> いいね
+          <% end %>
+        <% else %>
+          <%= link_to post_favorites_path(@post), method: :post, class: "btn btn-primary" do %>
+            ♡ <%= @post.favorites.count  %> いいね
+          <% end %>  
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <!-- コメント表示 -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title">コメント件数：<%= @post.comments.count %></h5>
+      <% @post.comments.each do |comment| %>
+        <div class="media mb-3">
+          <!-- image_tag comment.user.get_profile_image(100,100) -->
+          <img src="コメントユーザーのプロフィール画像URL" alt="コメントユーザー画像" class="mr-3 rounded-circle" width="50">
+          <div class="media-body">
+            <h5 class="mt-0"><%= comment.user.name %></h5>
+            <p><%= comment.text %></p>
+            <p><%= comment.created_at.strftime('%Y/%m/%d') %></p>
+            <% if comment.user == current_user %>
+              <%= link_to "削除", post_comment_path(@post, comment), method: :delete, class: "btn btn-danger" %>
+            <% end %>    
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <!-- コメントフォーム -->
+  <div class="card">
+    <div class="card-body">
+      <%= form_with model: [@post, @comment], local: true do |f| %>
+        <div class="form-group">
+          <%= f.text_area :text, rows: '5', placeholder: "返信する", class: "form-control" %>
+        </div>
+        <div class="form-group">
+          <%= f.submit "送信する", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

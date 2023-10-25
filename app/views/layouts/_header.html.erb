@@ -1,66 +1,94 @@
 <header>
-    <nav>
-        <div class="logo"></div>
-        
-        <div class="menu">
-            <ul>
-                <% if user_signed_in? %>
-                <li>
-                    <%= link_to posts_path do %>
-                        投稿一覧
-                    <% end %>
-                </li>
-                <li>
-                    <%= link_to user_path(current_user.id) do %>
-                        マイページ
-                    <% end %>
-                </li>
-                <li>
-                    <%= link_to destroy_user_session_path, method: :delete do %>
-                        ログアウト
-                    <% end %>
-                </li>
-                
-                <% elsif admin_signed_in? %>
-                <li>投稿一覧</li>
-                <li>ユーザー一覧</li>
-                <li>
-                    <%= link_to destroy_admin_session_path, method: :delete do%>
-                        ログアウト
-                    <% end %>
-                </li>
-                
-                <% else %>
-                <li>
-                    <%= link_to new_user_registration_path do %>
-                        新規登録
-                    <% end %>
-                </li>
-                <li>
-                    <%= link_to new_user_session_path do %>
-                        ログイン
-                    <% end %>
-                </li>
-                
-                
+    
+      <nav class="navbar navbar-expand-lg navbar-light bg-success">
+      <!-- ヘッダーのコンテンツ -->
+      <a class="navbar-brand text-light" href="#">Fa-minecto<i class="fa-solid fa-seedling"></i></a>
+    
+      <!-- ナビゲーションメニュー -->
+          <ul class="navbar-nav ml-auto">
+            <% if user_signed_in? %>
+              <li class="nav-item">
+                <%= link_to posts_path, class: "nav-link text-light" do %>
+                  投稿一覧
                 <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to user_path(current_user.id), class: "nav-link text-light" do %>
+                  マイページ
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to destroy_user_session_path, method: :delete, class: "nav-link text-light" do %>
+                  ログアウト
+                <% end %>
+              </li>
+              <!--検索バー-->
+              <div class = "search_form">
+                <%= form_with url: search_path, local: true, method: :get do |f| %>
+                  <%= f.text_field :word %>
+                  <%= f.select :range, options_for_select([['User'],['Post']]) %>
+                  <%= f.select :search, options_for_select([["完全一致","perfect_match"],["部分一致","partial_match"]]) %>
+                  <%= f.submit "検索", class: "btn btn-light" %>
+                <% end %>
+              </div>
+            <% elsif admin_signed_in? %>
+              <li class="nav-item">投稿一覧</li>
+              <li class="nav-item">ユーザー一覧</li>
+              <li class="nav-item">
+                <%= link_to destroy_admin_session_path, method: :delete, class: "nav-link" do %>
+                  ログアウト
+                <% end %>
+              </li>
+              <!--検索バー-->
+              <div class = "search_form">
+                <%= form_with url: search_path, local: true, method: :get do |f| %>
+                  <%= f.text_field :word %>
+                  <%= f.select :range, options_for_select([['User'],['Post']]) %>
+                  <%= f.select :search, options_for_select([["完全一致","perfect_match"],["部分一致","partial_match"]]) %>
+                  <%= f.submit "検索", class: "btn btn-primary" %>
+                <% end %>
+              </div>
+            <% else %>
+              <li class="nav-item">
+                <%= link_to new_user_registration_path, class: "nav-link" do %>
+                  新規登録
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to new_user_session_path, class: "nav-link" do %>
+                  ログイン
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+      </nav>
+                
                 
                 <!--部分テンプレートになるところ-->
                 <!--新規投稿画面-->
-                <% if user_signed_in? %>
-                
-                    <%= form_with model: @new_post do |f| %>
-                        <h5>画像</h5>
-                        <%= f.file_field :images, accept: "image/*" %>
-                        <h5>投稿文</h5>
-                        <%= f.text_area :text %>
-                        
-                        <%= f.submit '投稿' %>
+                <div class="container mt-4">
+                  <% if user_signed_in? %>
+                    <%= form_with model: @new_post, local: true, html: { class: "mb-3" } do |f| %>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <h5>画像</h5>
+                            <%= f.file_field :images, accept: "image/*", class: "form-control-file" %>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <h5>投稿文</h5>
+                            <%= f.text_area :text, class: "form-control" %>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6 offset-md-6">
+                          <%= f.submit '投稿', class: "btn btn-primary btn-block" %>
+                        </div>
+                      </div>
+                     <% end %> 
                     <% end %>
-                <% else %>
-                <% end %>
-                
-            </ul>
-        </div>
-    </nav>
+                  </div>
 </header>
