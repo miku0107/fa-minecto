@@ -1,18 +1,44 @@
-<h1>post index</h1>
-    
-    <!--投稿一覧-->
+
+    <!-- 投稿一覧 -->
     <% @posts.each do |post| %>
-        <div>
-            
-                <div>
-                    <%= link_to user_path(post.user.id) do %>
-                        <p>投稿ユーザー画像:<%= image_tag 'no_image.jpg' %></p>
-                        <p>ユーザーネーム:<%= post.user.name %></p>
-                    <% end %>
-                </div>
-            <%= link_to post_path(post.id) do %>    
-                <%= post.text %>
-                <%#= image_tag post.get_images %>
-            <% end %>
+      <div class="row mb-3">
+        <div class="col-md-2">
+          <!-- 投稿ユーザー情報 -->
+          <%= link_to user_path(post.user.id) do %>
+            <div class="text-center">
+              <%= image_tag 'no_image.jpg', class: 'img-fluid rounded-circle' %>
+              <p class="mt-2"><%= post.user.name %></p>
+            </div>
+          <% end %>
         </div>
-    <% end %>    
+    
+        <div class="col-md-10">
+          <!-- 投稿内容 -->
+          <%= link_to post_path(post.id) do %>
+            <div class="card">
+              <div class="card-body">
+                <p><%= post.text %></p>
+                <!--いいね機能-->
+                <div>
+                  <% if post.favorited_by?(current_user) %>
+                    <p>
+                      <%= link_to post_favorites_path(post), method: :delete do %>
+                        ♥<%= post.favorites.count %>いいね
+                      <% end %>
+                    </p>
+                  <% else %>
+                    <p>
+                      <%= link_to post_favorites_path(post), method: :post do %>
+                        ♡<%= post.favorites.count  %>いいね
+                      <% end %>  
+                    </p>
+                  <% end %>
+                </div>
+                <!--コメント数カウント-->
+                <p><%= link_to "#{post.comments.count} コメント", post_path(post.id) %></p>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
