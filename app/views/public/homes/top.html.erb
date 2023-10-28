@@ -1,0 +1,30 @@
+<h2>ようこそ！fa-minecto<i class="fa-solid fa-seedling"></i>へ！</h2>
+
+<p>fa-minecto<i class="fa-solid fa-seedling"></i>は農業・園芸をお仕事とする人・<br>
+趣味で取り組んでいる人たちの情報交換・交流サイトになります。<br>
+あなたの知らなかった農業・園芸の情報や新しい人とのつながりを<br>
+得るためにお手伝いします。</p>
+
+<% if user_signed_in? %>
+    <div class="btn btn-primary">
+    <%= link_to user_path(current_user.id), class: "text-light" do %>
+      マイページ
+    <% end %>
+    </div>
+<% elsif admin_signed_in? %>    
+    <p class="text-success">管理者ユーザーでログイン中です</p>
+<% else %>
+    <div class="btn btn-success">
+    <%= link_to new_user_registration_path, class: "text-light" do %>
+      新規登録
+    <% end %>
+    </div>
+    <div class="btn btn-primary">
+    <%= link_to new_user_session_path, class: "text-light" do %>
+      ログイン
+    <% end %>
+    </div>
+    <div class="btn btn-">
+      <%= link_to "ゲストログイン", users_guest_sign_in_path, method: :post %>
+    </div>
+<% end %>

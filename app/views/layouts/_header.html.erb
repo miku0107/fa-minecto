@@ -2,7 +2,11 @@
     
       <nav class="navbar navbar-expand-lg navbar-light bg-success">
       <!-- ヘッダーのコンテンツ -->
-      <a class="navbar-brand text-light" href="#">Fa-minecto<i class="fa-solid fa-seedling"></i></a>
+      <div>
+        <%= link_to root_path, class: "text-light" do %>
+          <h5>Fa-minecto<i class="fa-solid fa-seedling"></i></h5>
+        <% end %>
+      </div>
     
       <!-- ナビゲーションメニュー -->
           <ul class="navbar-nav ml-auto">
@@ -49,16 +53,7 @@
                 <% end %>
               </div>
             <% else %>
-              <li class="nav-item">
-                <%= link_to new_user_registration_path, class: "nav-link" do %>
-                  新規登録
-                <% end %>
-              </li>
-              <li class="nav-item">
-                <%= link_to new_user_session_path, class: "nav-link" do %>
-                  ログイン
-                <% end %>
-              </li>
+            
             <% end %>
           </ul>
       </nav>

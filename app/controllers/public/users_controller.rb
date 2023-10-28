@@ -1,4 +1,6 @@
 class Public::UsersController < ApplicationController
+    before_action :ensure_current_user, only: [:edit, :update, :withdraw]
+    
     
     def index
     end
@@ -7,6 +9,8 @@ class Public::UsersController < ApplicationController
         @new_post = Post.new
         @user = User.find(params[:id])
         @posts = @user.posts
+        @following_users = @user.following_users
+        @follower_users = @user.follower_users
     end
     
     def edit
@@ -31,9 +35,29 @@ class Public::UsersController < ApplicationController
         end
     end
     
+    # フォロー一覧
+    def follows
+      user = User.find(params[:id])
+      @users = user.following_users
+    end
+    
+    # フォロワー一覧
+    def followers
+      user = User.find(params[:id])
+      @user = user.follower_users
+    end
+
+    
     private
     
     def user_params
         params.require(:user).permit(:name, :bio, :location, :birth_date)
-    end    
+    end 
+    
+    def ensure_current_user
+        @user = User.find(params[:id])
+        unless @user == current_user
+            redirect_to user_path(current_user)
+        end    
+    end
 end
