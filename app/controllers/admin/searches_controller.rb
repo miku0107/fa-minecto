@@ -1,5 +1,5 @@
-class Public::SearchesController < ApplicationController
-    before_action :authenticate_user!
+class Admins::SearchesController < ApplicationController
+    before_action :authenticate_admin!
     
     
     def search
