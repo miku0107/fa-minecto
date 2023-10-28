@@ -1,6 +1,5 @@
 class Public::UsersController < ApplicationController
-    before_action :ensure_current_user, only: [:edit, :update, :withdraw]
-    
+    before_action :ensure_current_user, only: [:edit, :update]
     
     def index
     end
@@ -19,10 +18,16 @@ class Public::UsersController < ApplicationController
     
     def withdraw
         @user = User.find(current_user.id)
-        @user.update(is_active: false)
-        reset_session
-        flash[:notice] = "退会処理を実行しました"
-        redirect_to root_path
+        
+        if @user.email == 'guest@test.com'
+            redirect_to user_path(current_user)
+            flash[:notice] = "ゲストユーザーは退会できません"
+        else    
+            @user.update(is_active: false)
+            reset_session
+            flash[:notice] = "退会処理を実行しました"
+            redirect_to root_path
+        end
     end
     
     def update
@@ -60,4 +65,5 @@ class Public::UsersController < ApplicationController
             redirect_to user_path(current_user)
         end    
     end
+  
 end
